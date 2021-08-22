@@ -27,12 +27,11 @@
       "@nuxt/types",
       "@nuxtjs/axios",
       "@nuxt/content",
-      "@types/node"
+      "@types/node",
+      "vuetify"
     ]
   },
   "exclude": [
-    "node_modules",
-    ".nuxt",
-    "dist"
+    "node_modules"
   ]
 }
