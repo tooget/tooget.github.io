@@ -27,20 +27,18 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Provide, Vue } from 'nuxt-property-decorator'
-@Component({})
-class MyLinkedinProfileComponent extends Vue {
-  @Provide() members: Array<{
-    name: string
-    linkedinBadge: string
-  }> = [
-    {
-      name: 'SUNGHYUN KIM',
-      linkedinBadge:
-        '<div class="LI-profile-badge"  data-version="v1" data-size="medium" data-locale="ko_KR" data-type="vertical" data-theme="light" data-vanity="tooget"><a class="LI-simple-link" href=\'https://jp.linkedin.com/in/tooget?trk=profile-badge\'>SUNGHYUN K.</a></div>',
+<script>
+export default {
+  data() {
+    return {
+      members: [
+        {
+          name: 'SUNGHYUN KIM',
+          linkedinBadge:
+            '<div class="LI-profile-badge"  data-version="v1" data-size="medium" data-locale="ko_KR" data-type="vertical" data-theme="light" data-vanity="tooget"><a class="LI-simple-link" href=\'https://jp.linkedin.com/in/tooget?trk=profile-badge\'>SUNGHYUN K.</a></div>',
+        },
+      ],
     }
-  ]
+  },
 }
-export default MyLinkedinProfileComponent
 </script>

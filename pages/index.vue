@@ -1,14 +1,16 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card>
-        <MyLinkedinProfile />
+  <v-container>
+    <v-row justify="space-around">
+      <v-card width="400">
+        <v-container class="d-flex flex-row">
+          <MyLinkedinProfile />
+        </v-container>
         <MyTimelineProfile />
         <v-card-actions>
           <v-spacer />
           <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
         </v-card-actions>
       </v-card>
-    </v-col>
-  </v-row>
+    </v-row>
+  </v-container>
 </template>

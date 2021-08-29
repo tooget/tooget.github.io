@@ -1,52 +1,45 @@
 <template>
-  <v-container>
-    <Timeline
-      :timeline-items="timelineItems"
-      :message-when-no-items="messageWhenNoItems"
-      color-dots="#3CB70D"
-      order="desc"
-    />
-  </v-container>
+  <v-timeline align-top dense>
+    <v-timeline-item v-for="item in timelineItems" :key="item.no" small>
+      <div>
+        <div class="font-weight-normal">
+          <strong>{{ item.title }}</strong> @{{ item.from }}
+        </div>
+        <div>{{ item.position }}, {{ item.description }}</div>
+      </div>
+    </v-timeline-item>
+  </v-timeline>
 </template>
 
-<script lang='ts'>
-import Timeline from 'timeline-vuejs'
-import '../node_modules/timeline-vuejs/dist/timeline-vuejs.css'
-
+<script>
 export default {
-  components: {
-    Timeline,
-  },
   data() {
     return {
       messageWhenNoItems: 'No Data',
       timelineItems: [
         {
+          no: 1,
           from: new Date(2021, 4),
           title: 'SoftBank',
+          position: 'Data Architect/PMO',
           description: 'Data Strategy Office.',
         },
         {
+          no: 2,
           from: new Date(2019, 11),
           title: 'SoftBank',
+          position: 'Data Engineer',
           description: 'Data Strategy Dept.',
         },
         {
-          from: new Date(2019, 3),
-          title: 'Ebay Korea',
-          description: 'Data Specialist/Operator',
+          no: 3,
+          from: new Date(2019, 7),
+          title: 'Knowease-inc',
+          position: 'DevOps Engineer',
+          description: 'Co-founder',
         },
       ],
     }
   },
 }
 </script>
-<style>
-.container {
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-</style>
