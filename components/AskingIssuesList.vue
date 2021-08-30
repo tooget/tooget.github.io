@@ -2,7 +2,7 @@
   <v-simple-table>
     <thead>
       <tr>
-        <th>IssueNumber</th>
+        <th>Issue#</th>
         <th>Title</th>
       </tr>
     </thead>
@@ -10,23 +10,21 @@
       <tr v-for="item in listedJsonIssuesInfo" :key="item.id">
         <td>{{ item.number }}</td>
         <td>
-          {{ item.title }}
+          <a :href="item.html_url" target="_blank">{{ item.title }}</a>
         </td>
       </tr>
     </tbody>
   </v-simple-table>
 </template>
 
-
 <script>
 export default {
-  async asyncData({ $axios }) {
-    const result = await $axios.$get('https://api.github.com/repos/tooget/tooget.github.io/issues?state=all')
-    return { listedJsonIssuesInfo: result }
+  props: {
+    issuesListResultFromAskmeanythingPage: { type: Array, default: () => [] },
   },
   data() {
     return {
-      listedJsonIssuesInfo: []
+      listedJsonIssuesInfo: this.issuesListResultFromAskmeanythingPage
     }
   }
 }

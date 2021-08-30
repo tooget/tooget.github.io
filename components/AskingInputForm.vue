@@ -114,10 +114,10 @@ export default {
       e.preventDefault()
     },
 
-    submitForm () {
+    submitForm ({ $axios }) {
       this.loading = true
 
-      axios.post(process.env.contactUrl,
+      $axios.$post(process.env.contactUrl,
       JSON.stringify({
           form: {
             name: this.name,
