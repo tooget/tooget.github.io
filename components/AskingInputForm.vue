@@ -1,154 +1,95 @@
 <template>
-  <section class="my-8">
-    <div class="text-center">
-      <h1 class="mb-6">Ask Me Anything</h1>
-    </div>
+  <v-form ref="form" v-model="valid" lazy-validation>
+    <v-text-field
+      v-model="email"
+      :rules="emailRules"
+      label="E-mail"
+      required
+    ></v-text-field>
 
-    <form method="post" @submit="checkForm">
-      <div class="mb-4">
-        <label for="name">Name:</label>
-        <input
-          v-model="name"
-          type="text"
-          name="name"
-          placeholder="Your Name"
-          class="block mt-2 bg-gray-200 rounded w-full py-2 px-3"
-        />
-      </div>
-      <div class="mb-4">
-        <label for="mail">Email:</label>
-        <input
-          v-model="email"
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          class="block mt-2 bg-gray-200 rounded w-full py-2 px-3"
-        />
-      </div>
-      <div class="mb-4">
-        <label for="msg">Message:</label>
-        <textarea
-          v-model="message"
-          name="message"
-          placeholder="Your Message"
-          class="block mt-2 bg-gray-200 rounded w-full py-2 px-3"
-        ></textarea>
-      </div>
-      <div class="mb-4">
-        <input
-          type="submit"
-          value="Send message"
-          :class="{ 'cursor-not-allowed opacity-50': loading }"
-          class="
-            cursor-pointer
-            bg-blue-500
-            hover:bg-blue-400
-            text-white
-            font-bold
-            py-2
-            px-4
-            border-b-4 border-blue-600
-            hover:border-blue-500
-            rounded
-          "
-        />
-      </div>
-      <div v-if="errors.length" class="mb-4 text-red-500">
-        <b>Please correct the following error(s):</b>
-        <ul>
-          <li v-for="error in errors" :key="error">
-            {{ error }}
-          </li>
-        </ul>
-      </div>
-      <div v-if="success" class="text-green-500">
-        <b>Your message has been sent succesfully</b>
-      </div>
-    </form>
-  </section>
+    <v-select
+      v-model="select"
+      :items="items"
+      :rules="[(v) => !!v || 'Item is required']"
+      label="Item"
+      required
+    ></v-select>
+
+    <v-text-field
+      v-model="question"
+      :counter="100"
+      :rules="questionRules"
+      label="Question"
+      required
+    ></v-text-field>
+
+    <v-checkbox
+      v-model="checkbox"
+      :rules="[(v) => !!v || 'You must agree to continue!']"
+      label="메일주소 및 관련 내용 Github 공개 동의"
+      required
+    ></v-checkbox>
+
+    <v-btn :disabled="!valid" color="success" class="mr-4" @click="_summit">
+      Summit
+    </v-btn>
+  </v-form>
 </template>
 
 <script>
 export default {
-
-  data () {
-    return {
-      errors: [],
-      name: null,
-      email: null,
-      message: null,
-      loading: false,
-      success: false
-    }
-  },
-  head () {
-    return {
-      title: 'Ask Me Anything',
-      meta: [
-        { hid: 'description', name: 'description', content: 'Ask Me Anything! - tooget' }
-      ]
-    }
-  },
+  data: () => ({
+    valid: true,
+    question: '',
+    questionRules: [
+      (v) => !!v || 'Question is required',
+      (v) =>
+        (v && v.length <= 100) || 'Question must be less than 100 characters',
+    ],
+    email: '',
+    emailRules: [
+      (v) => !!v || 'E-mail is required',
+      (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+    ],
+    select: null,
+    items: ['Item 1', 'Item 2', 'Item 3', 'Item 4'],
+    checkbox: false,
+  }),
 
   methods: {
-    checkForm (e) {
-      this.errors = []
-      this.success = false
-
-      if (!this.name) {
-        this.errors.push("Name required")
+    _summit() {
+      this.$refs.form.validate()
+      if (this.valid) {
+        this._post()
+        alert('「' + this.select + '」를 등록하였습니다.')
       }
-      if (!this.email) {
-        this.errors.push('Email required')
-      } else if (!this.validEmail(this.email)) {
-        this.errors.push('Valid email required')
-      }
-      if (!this.message) {
-        this.errors.push("Message required")
-      }
-
-      if (!this.errors.length) {
-        this.submitForm()
-      }
-
-      e.preventDefault()
     },
-
-    submitForm ({ $axios }) {
-      this.loading = true
-
-      $axios.$post(process.env.contactUrl,
-      JSON.stringify({
-          form: {
-            name: this.name,
-            email: this.email,
-            message: this.message
+    _post() {
+      try {
+        const accessToken = this.$axios.$post(
+          'https://github.com/login/oauth/access_token',
+          {
+            client_id: '!!!',
+            client_secret: '!!!'
           }
-        }),
-      {
-        headers: { 'Content-Type': 'application/json' }
-      })
-      .then(({ data }) => {
-        this.loading = false
-
-        if(data.error){
-          this.errors.push(data.error)
-        } else if(data.name && data.email && data.message) {
-          this.name = this.email = this.message = null
-          this.success = true
-        }
-      }).catch(error => {
-        this.loading = false
-        console.log(error)
-        this.errors.push('An error occured, please try again later')
-      })
+        )
+        console.log(accessToken)
+        this.$axios.$post(
+          'https://api.github.com/repos/tooget/tooget.github.io/issues',
+          {
+            title: this.select,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/vnd.github.v3+json',
+              'Authorization': 'bearer !!!'
+            },
+          }
+        )
+      } catch (err) {
+        console.log(err)
+      }
     },
-
-    validEmail (email) {
-      // eslint-disable-next-line
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return re.test(email)
-    }
-  }
+  },
 }
 </script>
