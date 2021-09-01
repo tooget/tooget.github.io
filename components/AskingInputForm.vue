@@ -3,7 +3,7 @@
     <v-text-field
       v-model="email"
       :rules="emailRules"
-      label="E-mail"
+      label="E-mail 주소를 입력해주세요."
       required
     ></v-text-field>
 
@@ -11,7 +11,7 @@
       v-model="select"
       :items="items"
       :rules="[(v) => !!v || 'Item is required']"
-      label="Item"
+      label="질문 관련 항목을 선택해주세요."
       required
     ></v-select>
 
@@ -19,14 +19,14 @@
       v-model="question"
       :counter="100"
       :rules="questionRules"
-      label="Question"
+      label="질문 내용을 입력해주세요."
       required
     ></v-text-field>
 
     <v-checkbox
       v-model="checkbox"
       :rules="[(v) => !!v || 'You must agree to continue!']"
-      label="메일주소 및 관련 내용 Github 공개 동의"
+      label="메일주소 및 관련 내용을 Github 리포지토리상 공개함에 동의합니다."
       required
     ></v-checkbox>
 
@@ -52,7 +52,7 @@ export default {
       (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
     ],
     select: null,
-    items: ['Item 1', 'Item 2', 'Item 3', 'Item 4'],
+    items: ['사이트 사용상 문제', '비지니스 상담'],
     checkbox: false,
   }),
 
@@ -61,28 +61,48 @@ export default {
       this.$refs.form.validate()
       if (this.valid) {
         this._post()
-        alert('「' + this.select + '」를 등록하였습니다.')
+        alert(
+          '「' +
+            this.select +
+            ' / ' +
+            this.email +
+            '」를 이슈로 등록하였습니다.'
+        )
       }
     },
+
+    _labelsMap() {
+      switch (this.select) {
+        case '사이트 사용상 문제':
+          return ['Domain:UX', 'Task:Bug', 'Communication:VoiceOfCustomer']
+        case '비지니스 상담':
+          return ['Domain:Business', 'Task:Enhancement', 'Communication:VoiceOfCustomer']
+        default:
+          return ['Communication:VoiceOfCustomer']
+      }
+    },
+
     _post() {
       try {
-        const accessToken = this.$axios.$post(
-          'https://github.com/login/oauth/access_token',
-          {
-            client_id: '!!!',
-            client_secret: '!!!'
-          }
-        )
-        console.log(accessToken)
         this.$axios.$post(
           'https://api.github.com/repos/tooget/tooget.github.io/issues',
           {
-            title: this.select,
+            title: this.select + ' / ' + this.email,
+            labels: this._labelsMap(),
+            body:
+              '| Email | 항목 | 질문 |\n| -- | -- | -- |\n' +
+              '|' +
+              this.email +
+              '|' +
+              this.select +
+              '|' +
+              this.question +
+              '|',
           },
           {
             headers: {
               'Content-Type': 'application/vnd.github.v3+json',
-              'Authorization': 'bearer !!!'
+              'Authorization': 'bearer' + ' ' + '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'
             },
           }
         )
