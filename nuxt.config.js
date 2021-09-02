@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+import SECRET_ISSUECREATION_TOKEN from './secrets'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -77,5 +78,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  publicRuntimeConfig: {
+    ISSUECREATION_TOKEN : SECRET_ISSUECREATION_TOKEN,
   },
 }

@@ -76,7 +76,11 @@ export default {
         case '사이트 사용상 문제':
           return ['Domain:UX', 'Task:Bug', 'Communication:VoiceOfCustomer']
         case '비지니스 상담':
-          return ['Domain:Business', 'Task:Enhancement', 'Communication:VoiceOfCustomer']
+          return [
+            'Domain:Business',
+            'Task:Enhancement',
+            'Communication:VoiceOfCustomer',
+          ]
         default:
           return ['Communication:VoiceOfCustomer']
       }
@@ -102,7 +106,8 @@ export default {
           {
             headers: {
               'Content-Type': 'application/vnd.github.v3+json',
-              'Authorization': 'bearer' + ' ' + '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'
+              Authorization:
+                'bearer' + ' ' + this.$config.ISSUECREATION_TOKEN,
             },
           }
         )
