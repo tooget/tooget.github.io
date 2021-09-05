@@ -88,6 +88,20 @@ export default {
 
     _post() {
       try {
+        const auth = this.$axios.$get(
+          'https://github.com/login/oauth/authorize', 
+          {
+            client_id: 'Iv1.e0e64991a1594894',
+          },
+        )
+        const authToken = this.$axios.$post(
+          'https://github.com/login/oauth/access_token',
+          {
+            client_id: 'Iv1.e0e64991a1594894',
+            client_secret: '7eaa628b940094955669c5f5200f4502c3f5af51',
+            code: auth.code,
+          },
+        )
         this.$axios.$post(
           'https://api.github.com/repos/tooget/tooget.github.io/issues',
           {
@@ -107,7 +121,7 @@ export default {
             headers: {
               'Content-Type': 'application/vnd.github.v3+json',
               Authorization:
-                'bearer' + ' ' + this.$config.ISSUECREATION_TOKEN,
+                authToken.token_type + ' ' + authToken.access_token,
             },
           }
         )
