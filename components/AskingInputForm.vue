@@ -89,10 +89,19 @@ export default {
     _post() {
       try {
         const auth = this.$axios.$get(
-          'https://github.com/login/oauth/authorize', 
+          'https://github.com/login/oauth/authorize',
           {
             client_id: 'Iv1.e0e64991a1594894',
           },
+          {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Credentials': 'true',
+              'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
+              'Access-Control-Allow-Headers':
+                'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
+            },
+          }
         )
         const authToken = this.$axios.$post(
           'https://github.com/login/oauth/access_token',
@@ -101,6 +110,15 @@ export default {
             client_secret: '7eaa628b940094955669c5f5200f4502c3f5af51',
             code: auth.code,
           },
+          {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Credentials': 'true',
+              'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
+              'Access-Control-Allow-Headers':
+                'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
+            },
+          }
         )
         this.$axios.$post(
           'https://api.github.com/repos/tooget/tooget.github.io/issues',
@@ -119,6 +137,11 @@ export default {
           },
           {
             headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Credentials': 'true',
+              'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
+              'Access-Control-Allow-Headers':
+                'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
               'Content-Type': 'application/vnd.github.v3+json',
               Authorization:
                 authToken.token_type + ' ' + authToken.access_token,
