@@ -60,8 +60,7 @@ export default {
     _summit() {
       this.$refs.form.validate()
       if (this.valid) {
-        const returnedJwt = this._getJWT()
-        this._postIssueCreation(returnedJwt)
+        this._postIssueCreation()
         alert(
           '「' +
             this.select +
@@ -87,53 +86,51 @@ export default {
       }
     },
 
-    _getJWT() {
-      const jwt = this.$axios.$get(
-        'https://asia-northeast3-forward-leaf-325313.cloudfunctions.net/jwt-creation-app-for-tooget-github-io',
+    async _postIssueCreation() {
+      const jwt = await this.$axios.$get(
+        'https://asia-northeast3-forward-leaf-325313.cloudfunctions.net/jwt-creation-app-for-tooget-github-io'
+      )
+      // const installation_id = this.$axios.$get(
+      //   'https://api.github.com/app/installations', {},
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${jwt}`,
+      //       Accept: 'application/vnd.github.v3+json'
+      //     },
+      //   }
+      // )
+      const accessTokens = await this.$axios.$post(
+        'https://api.github.com/app/installations/19295983/access_tokens',
+        {},
         {
           headers: {
-            'Access-Control-Allow-Origin': 'https://tooget.github.io',
-            'Access-Control-Allow-Methods': 'GET',
-            'Access-Control-Allow-Headers':
-              'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
+            Authorization: `Bearer ${jwt}`,
+            Accept: 'application/vnd.github.v3+json',
           },
         }
       )
-      return jwt
-    },
-
-    _postIssueCreation(paramJwt) {
-      try {
-        this.$axios.$post(
-          'https://api.github.com/repos/tooget/tooget.github.io/issues',
-          {
-            title: this.select + ' / ' + this.email,
-            labels: this._labelsMap(),
-            body:
-              '| Email | 항목 | 질문 |\n| -- | -- | -- |\n' +
-              '|' +
-              this.email +
-              '|' +
-              this.select +
-              '|' +
-              this.question +
-              '|',
+      await this.$axios.$post(
+        'https://api.github.com/repos/tooget/tooget.github.io/issues',
+        {
+          title: this.select + ' / ' + this.email,
+          labels: this._labelsMap(),
+          body:
+            '| Email | 항목 | 질문 |\n| -- | -- | -- |\n' +
+            '|' +
+            this.email +
+            '|' +
+            this.select +
+            '|' +
+            this.question +
+            '|',
+        },
+        {
+          headers: {
+            Authorization: `Token ${accessTokens.token}`,
+            Accept: 'application/vnd.github.v3+json',
           },
-          {
-            headers: {
-            'Access-Control-Allow-Origin': 'https://tooget.github.io',
-              'Access-Control-Allow-Credentials': 'true',
-              'Access-Control-Allow-Methods': 'POST',
-              'Access-Control-Allow-Headers':
-                'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
-              'Content-Type': 'application/vnd.github.v3+json',
-              Authorization: 'Bearer' + ' ' + paramJwt,
-            },
-          }
-        )
-      } catch (err) {
-        console.log(err)
-      }
+        }
+      )
     },
   },
 }
