@@ -1,29 +1,32 @@
 def jwt(request):
+
     import jwt  # pyjwt==1.5.3
     import os
     import time
     from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
+
+    # For more information about CORS and CORS preflight requests, see:
+    # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
+
+    # Set CORS headers for the preflight request
+    if request.method == 'OPTIONS':
+        # Allows GET requests from any origin with the Content-Type
+        # header and caches preflight response for an 3600s
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': ['GET', 'OPTIONS'],
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600'
+        }
+        return ('', 204, headers)
+
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type'
+    }
+
     jwt.register_algorithm('RS256', RSAAlgorithm(RSAAlgorithm.SHA256))
-  
     priv_rsakey = open("/pem/pem-github-app-IssueCreationBot-for-tooget-github-io", 'r').read()
-
-    # from google.cloud import secretmanager
-
-    # from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
-    # jwt.register_algorithm('RS256', RSAAlgorithm(RSAAlgorithm.SHA256))
-
-    # # 環境変数読み込み
-    # project_id = os.environ.get('forward-leaf-325313')
-    # secret_name = os.environ.get('pem-github-app-IssueCreationBot-for-tooget-github-io')
-    # secret_ver = os.environ.get(1)
-
-    # def get_secret_text(project_id, secret_name, secret_ver):
-
-    #   client = secretmanager.SecretManagerServiceClient()
-    #   name = client.secret_version_path(project_id, secret_name, secret_ver)
-    #   response = client.access_secret_version(name)
-
-    #   return(response.payload.data.decode('UTF-8'))
 
     # Generate the JWT
     payload = {
@@ -36,4 +39,4 @@ def jwt(request):
     }
 
     encoded_jwt = jwt.encode(payload, priv_rsakey, algorithm="RS256")
-    return encoded_jwt
+    return (encoded_jwt, 200, headers)
