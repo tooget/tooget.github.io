@@ -23,7 +23,7 @@
 export default {
   async asyncData({ $axios }) {
     const issuesListResult = await $axios.$get(
-      'https://api.github.com/repos/tooget/tooget.github.io/issues?state=all'
+      'https://api.github.com/repos/tooget/tooget.github.io/issues?state=all&labels=Communication:VoiceOfCustomer'
     )
     return { issuesListResult }
   },

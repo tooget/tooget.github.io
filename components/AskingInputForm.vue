@@ -71,7 +71,7 @@ export default {
       }
     },
 
-    _labelsMap() {
+    _mapVselectToGithubIssuelabels() {
       switch (this.select) {
         case '사이트 사용상 문제':
           return ['Domain:UX', 'Task:Bug', 'Communication:VoiceOfCustomer']
@@ -109,11 +109,11 @@ export default {
           },
         }
       )
-      await this.$axios.$post(
+      const creationResult = await this.$axios.$post(
         'https://api.github.com/repos/tooget/tooget.github.io/issues',
         {
           title: this.select + ' / ' + this.email,
-          labels: this._labelsMap(),
+          labels: this._mapVselectToGithubIssuelabels(),
           body:
             '| Email | 항목 | 질문 |\n| -- | -- | -- |\n' +
             '|' +
@@ -131,6 +131,7 @@ export default {
           },
         }
       )
+      return creationResult // creationResult.url: URL of created Github Issue
     },
   },
 }

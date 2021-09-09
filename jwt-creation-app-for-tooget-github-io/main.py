@@ -1,9 +1,8 @@
 def jwt(request):
 
+    from cryptography.hazmat.backends import default_backend
+    from time import time
     import jwt  # pyjwt==1.5.3
-    import os
-    import time
-    from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
 
     # For more information about CORS and CORS preflight requests, see:
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
@@ -25,18 +24,19 @@ def jwt(request):
         'Access-Control-Allow-Headers': 'Content-Type'
     }
 
-    jwt.register_algorithm('RS256', RSAAlgorithm(RSAAlgorithm.SHA256))
-    priv_rsakey = open("/pem/pem-github-app-IssueCreationBot-for-tooget-github-io", 'r').read()
+    priv_rsakey_str = open("/pem/pem-github-app-IssueCreationBot-for-tooget-github-io", 'r').read()
+    priv_rsakey_bytes = priv_rsakey_str.encode()
+    priv_rsakey = default_backend().load_pem_private_key(priv_rsakey_bytes, None)
 
     # Generate the JWT
     payload = {
       # issued at time, 60 seconds in the past to allow for clock drift
-      'iat': int(time.time()) - 60,
+      'iat': int(time()) - 60,
       # JWT expiration time (10 minute maximum)
-      'exp': int(time.time()) + (10 * 60),
+      'exp': int(time()) + (10 * 60),
       # GitHub App's identifier
       'iss': 136342
     }
 
-    encoded_jwt = jwt.encode(payload, priv_rsakey, algorithm="RS256")
+    encoded_jwt = jwt.encode(payload, priv_rsakey, algorithm='RS256')
     return (encoded_jwt, 200, headers)
