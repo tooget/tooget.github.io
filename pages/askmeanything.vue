@@ -1,19 +1,13 @@
 <template>
   <v-container>
     <v-row justify="space-around">
-      <v-card width="400">
+      <v-card width="300">
         <v-container justify="center">
           <AskingInputForm />
         </v-container>
         <v-container>
-          <AskingIssuesList
-            :issuesListResultFromAskmeanythingPage="issuesListResult"
-          />
+          <AskingIssuesList :issuesListResultFromAskmeanythingPage="issuesListResult" />
         </v-container>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/"> SUNGHYUN KIM </v-btn>
-        </v-card-actions>
       </v-card>
     </v-row>
   </v-container>

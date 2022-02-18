@@ -63,6 +63,11 @@ export default {
           icon: 'mdi-chart-bubble',
           title: 'Ask Me Anything',
           to: '/askmeanything'
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Idea Archive',
+          to: '/ideaarchive'
         }
       ],
       miniVariant: false,

@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row justify="space-around">
-      <v-card width="400">
+      <v-card>
         <v-container class="d-flex flex-row">
           <MyLinkedinProfile />
         </v-container>
