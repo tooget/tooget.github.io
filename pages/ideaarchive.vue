@@ -1,7 +1,5 @@
 <template>
-  <v-container>
-    <div v-html="$md.render(ideaMarkdownResult)" />
-  </v-container>
+  <div v-html="$md.render(ideaMarkdownResult)" />
 </template>
 
 <script>
