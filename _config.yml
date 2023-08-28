@@ -20,10 +20,8 @@
 
 title: KIM SUNGHYUN
 email: tooget@gmail.com
-# description: >- # this means to ignore newlines until "baseurl:"
-  # Write an awesome description for your new site here. You can edit this
-  # line in _config.yml. It will appear in your document head meta (for
-  # Google search results) and in your feed.xml site description.
+description: >- # this means to ignore newlines until "baseurl:"
+  Enthused to eliminate digital divide, focus on total optimization and create value added to humanity.
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "tooget.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 linkedin_username: tooget
