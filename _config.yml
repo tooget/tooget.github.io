@@ -28,8 +28,6 @@ linkedin_username: tooget
 github_username: tooget
 facebook_username: tooget.shkim
 
-google_analytics: G-6YC3DGZ395
-
 # Build settings
 theme: minima
 plugins:
