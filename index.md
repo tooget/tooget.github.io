@@ -18,7 +18,20 @@ layout: home
 <br />
 
 ## Contact: Coffee Chat
-<!-- Calendly inline widget begin -->
-<div class="calendly-inline-widget" data-url="https://calendly.com/tooget/coffee-chat?embed_domain=tooget.github.io&embed_type=Inline&hide_landing_page_details=1&hide_gdpr_banner=1" style="min-width:100%;height:885px;"></div>
-<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-<!-- Calendly inline widget end -->
+<!-- Google Calendar Appointment Scheduling begin -->
+<link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
+<script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
+<script>
+(function() {
+  var target = document.currentScript;
+  window.addEventListener('load', function() {
+    calendar.schedulingButton.load({
+      url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ1xOWxmGhz0HYezXK3Llvx0N3mN1LMHIO6L10s1QYW4t5yvUguHrhXQqr0yXcOhHHAZ75s1rzPz?gv=true',
+      color: '#039BE5',
+      label: 'Book an appointment',
+      target,
+    });
+  });
+})();
+</script>
+<!-- end Google Calendar Appointment Scheduling -->
