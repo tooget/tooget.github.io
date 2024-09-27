@@ -19,5 +19,5 @@ layout: home
 
 # Book Schedule: Remote Chat
 <a href="https://calendar.app.google/rzRnYrxEPQybRQA16" target="_blank">
-    <button>Go to Google</button>
+    <button>Book an appoinment</button>
 </a>
