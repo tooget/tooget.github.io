@@ -2,7 +2,7 @@
 # Feel free to add content and custom Front Matter to this file.
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
-title: Resume | Booking Schedule
+title: Resume
 layout: home
 ---
 
@@ -17,7 +17,5 @@ layout: home
 ></iframe>
 <br />
 
-# Book Schedule: Remote Chat
-<a href="https://calendar.app.google/rzRnYrxEPQybRQA16" target="_blank">
-    <button>Book an appoinment</button>
-</a>
+# Contact
+tooget@gmail.com
